@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Catalog</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+        }
+        h1 {
+            margin: 0;
+        }
+        h3 {
+            color: #4CAF50;
+        }
+        form {
+            margin: 20px;
+            padding: 15px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        input[type="text"], select {
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 100%;
+            max-width: 300px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            max-width: 300px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: #fff;
+            margin: 15px 0;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+        }
+        li strong {
+            color: #4CAF50;
+        }
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 15px;
+            background-color: #333;
+            color: white;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Product Catalog</h1>
+    </header>
+
+    <!-- Search Form -->
+    <form method="get">
+        <input type="text" name="search" placeholder="Search by description" value="{{ search_query }}">
+        <button type="submit">Search</button>
+    </form>
+
+    <!-- Category Filter -->
+    <h3>Filter by Category:</h3>
+    <form method="get">
+        <select name="category">
+            <option value="">All Categories</option>
+            {% for category in categories %}
+                <option value="{{ category.id }}" {% if category.id|stringformat:"s" == category_filter %} selected {% endif %}>
+                    {{ category.name }}
+                </option>
+            {% endfor %}
+        </select>
+        <button type="submit">Filter</button>
+    </form>
+
+    <!-- Tag Filter -->
+    <h3>Filter by Tag:</h3>
+    <form method="get">
+        <select name="tags">
+            <option value="">All Tags</option>
+            {% for tag in tags %}
+                <option value="{{ tag.id }}" {% if tag.id|stringformat:"s" == tag_filter %} selected {% endif %}>
+                    {{ tag.name }}
+                </option>
+            {% endfor %}
+        </select>
+        <button type="submit">Filter</button>
+    </form>
+
+    <!-- Product List -->
+    <h2>Products</h2>
+    <ul>
+        {% for product in products %}
+            <li>
+                <strong>{{ product.name }}</strong><br>
+                Description: {{ product.description }}<br>
+                Category: {{ product.category.name }}<br>
+                Tags:
+                {% for tag in product.tags.all %}
+                    {{ tag.name }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            </li>
+        {% endfor %}
+    </ul>
+
+    <!-- Footer with the note -->
+    <footer>
+        <p>Project done by Assiya Karatay</p>
+    </footer>
+
+</body>
+</html>
